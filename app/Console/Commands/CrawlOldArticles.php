@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Facades\Crawler;
+use App\Models\Article;
 use App\Models\NotFoundArticle;
 use Illuminate\Console\Command;
 
@@ -47,13 +48,13 @@ class CrawlOldArticles extends Command
     public function handle()
     {
         for ($i = config('articles.start_id'); $i > 1; $i--) {
-            // Check we've already crawled this article.
-            if (NotFoundArticle::where('article_id', $i)->count()) {
+            // Check if we've already crawled this article.
+            if (NotFoundArticle::where('article_id', $i)->count() || Article::where('article_id', $i)->count()) {
+                $this->info('Already crawled: ' . $i);
                 continue;
             }
 
             $url = config('articles.url') . $i;
-
             if (Crawler::getStatusCode($url) == 404) {
                 NotFoundArticle::create(['article_id' => $i]);
 
@@ -61,8 +62,11 @@ class CrawlOldArticles extends Command
                 continue;
             }
 
-            $this->info('Found: ' . $i);
+
+            Crawler::getArticle($url, $i);
+            $this->info('Found and stored: ' . $i);
         }
+
         return 0;
     }
 }
