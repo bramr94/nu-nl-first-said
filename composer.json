@@ -11,6 +11,7 @@
         "php": "^7.3|^8.0",
         "ext-dom": "*",
         "ext-json": "*",
+        "doctrine/dbal": "^3.0",
         "fabpot/goutte": "^4.0",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
