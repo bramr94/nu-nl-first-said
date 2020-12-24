@@ -2,7 +2,7 @@
 
 namespace Tests;
 
-use LaravelZero\Framework\Testing\TestCase as BaseTestCase;
+use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
 {

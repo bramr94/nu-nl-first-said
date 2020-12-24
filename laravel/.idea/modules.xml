@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/nu-nl-first-said-zero.iml" filepath="$PROJECT_DIR$/.idea/nu-nl-first-said-zero.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/nu-first-said.iml" filepath="$PROJECT_DIR$/.idea/nu-first-said.iml" />
     </modules>
   </component>
 </project>
