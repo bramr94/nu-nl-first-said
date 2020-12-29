@@ -17,6 +17,8 @@
     ],
     "require": {
         "php": "^7.3|^8.0",
+        "doctrine/dbal": "^3.0",
+        "fabpot/goutte": "^4.0",
         "illuminate/database": "^8.0",
         "laravel-zero/framework": "^8.0"
     },

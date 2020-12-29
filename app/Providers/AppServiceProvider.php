@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Helpers\Crawler;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,7 +14,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $this->app->singleton('crawler', static function () {
+            return new Crawler();
+        });
     }
 
     /**
