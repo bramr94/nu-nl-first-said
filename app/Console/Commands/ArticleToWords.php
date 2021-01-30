@@ -20,7 +20,7 @@ class ArticleToWords extends Command
      *
      * @var string
      */
-    protected $signature = 'article:toWords';
+    protected $signature = 'articles:toWords';
 
     /**
      * The console command description.

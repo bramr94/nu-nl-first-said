@@ -37,7 +37,7 @@ class Crawler
     public function getStatusCode(string $url): int
     {
         $headers = @get_headers($url);
-        if ($headers && isset($headers[14]) && strpos($headers[14], '200')) {
+        if ($headers && isset($headers[19]) && strpos($headers[19], '200')) {
             return 200;
         }
 
