@@ -6,6 +6,7 @@ use App\Facades\Crawler;
 use App\Models\Article;
 use App\Models\NotFoundArticle;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Class CrawlOldArticles
@@ -45,28 +46,35 @@ class CrawlOldArticles extends Command
      *
      * @return int
      */
-    public function handle()
+    public function handle(): int
     {
-        for ($i = config('articles.start_id'); $i > 1; $i--) {
-            // Check if we've already crawled this article.
-            if (NotFoundArticle::where('article_id', $i)->count() || Article::where('article_id', $i)->count()) {
-                $this->info('Already crawled: ' . $i);
-                continue;
+        try {
+            for ($i = config('articles.start_id'); $i > 1; $i--) {
+                // Check if we've already crawled this article.
+                if (NotFoundArticle::where('article_id', $i)->count() || Article::where('article_id', $i)->count()) {
+                    $this->info('Already crawled: ' . $i);
+                    continue;
+                }
+
+                $url = config('articles.url') . $i;
+                if (Crawler::getStatusCode($url) == 404) {
+                    NotFoundArticle::create(['article_id' => $i]);
+
+                    $this->info('Not found:' . $i);
+                    continue;
+                }
+
+
+                Crawler::getArticle($url, $i);
+                $this->info('Found and stored: ' . $i);
             }
 
-            $url = config('articles.url') . $i;
-            if (Crawler::getStatusCode($url) == 404) {
-                NotFoundArticle::create(['article_id' => $i]);
+            return 0;
+        } catch (\Exception $exception) {
+            Log::error('Could not crawl articles', ['exception' => $exception]);
+            $this->error('Something went wrong: ' . $exception->getMessage());
 
-                $this->info('Not found:' . $i);
-                continue;
-            }
-
-
-            Crawler::getArticle($url, $i);
-            $this->info('Found and stored: ' . $i);
+            return 1;
         }
-
-        return 0;
     }
 }
