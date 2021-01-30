@@ -3,7 +3,7 @@
 namespace App\Console;
 
 use App\Console\Commands\ArticleToWords;
-use App\Console\Commands\CrawlOldArticles;
+use App\Console\Commands\CrawlArticles;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -15,7 +15,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        CrawlOldArticles::class,
+        CrawlArticles::class,
         ArticleToWords::class
     ];
 

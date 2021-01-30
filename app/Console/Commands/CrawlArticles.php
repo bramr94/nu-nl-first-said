@@ -15,21 +15,21 @@ use Illuminate\Support\Facades\Log;
  *
  * @package App\Console\Commands
  */
-class CrawlOldArticles extends Command
+class CrawlArticles extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'crawl:oldArticles';
+    protected $signature = 'articles:crawl';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Crawl the old articles.';
+    protected $description = 'Crawl the articles.';
 
     /**
      * Create a new command instance.
@@ -49,7 +49,7 @@ class CrawlOldArticles extends Command
     public function handle(): int
     {
         try {
-            for ($i = config('articles.start_id'); $i > 1; $i--) {
+            for ($i = config('articles.start_id'); $i <= config('articles.end_id'); $i++) {
                 // Check if we've already crawled this article.
                 if (NotFoundArticle::where('article_id', $i)->count() || Article::where('article_id', $i)->count()) {
                     $this->info('Already crawled: ' . $i);
@@ -63,7 +63,6 @@ class CrawlOldArticles extends Command
                     $this->info('Not found:' . $i);
                     continue;
                 }
-
 
                 Crawler::getArticle($url, $i);
                 $this->info('Found and stored: ' . $i);
