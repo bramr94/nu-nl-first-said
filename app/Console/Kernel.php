@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use App\Console\Commands\ArticleToWords;
+use App\Console\Commands\CheckRssFeeds;
 use App\Console\Commands\CrawlArticles;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -16,7 +17,8 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         CrawlArticles::class,
-        ArticleToWords::class
+        ArticleToWords::class,
+        CheckRssFeeds::class
     ];
 
     /**
@@ -27,7 +29,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->call('rssFeeds:check')->everyFifteenMinutes();
     }
 
     /**

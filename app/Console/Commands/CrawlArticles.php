@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Facades\Crawler;
+use App\Jobs\ProcessArticle;
 use App\Models\Article;
 use App\Models\NotFoundArticle;
 use Illuminate\Console\Command;
@@ -64,8 +65,8 @@ class CrawlArticles extends Command
                     continue;
                 }
 
-                Crawler::getArticle($url, $i);
-                $this->info('Found and stored: ' . $i);
+                ProcessArticle::dispatch($url, $i);
+                $this->info('Job dispatched: ' . $i);
             }
 
             return 0;
