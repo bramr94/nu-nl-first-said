@@ -54,6 +54,11 @@ class Crawler
      */
     public function getArticle(string $url, int $id): void
     {
+        // Last check if the ID already exists.
+        if (Article::where('article_id', $id)->count()) {
+            return;
+        }
+
         $crawler = $this->client->request('GET', $url);
         $scripts = $crawler->filterXPath('//script[@type="application/ld+json"]');
 
