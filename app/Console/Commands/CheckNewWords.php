@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Abraham\TwitterOAuth\TwitterOAuth;
 use App\Jobs\SendTweet;
 use App\Models\UniqueWord;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 
@@ -49,12 +50,18 @@ class CheckNewWords extends Command
     public function handle(): int
     {
         try {
-            $this->withProgressBar(UniqueWord::where('should_be_tweeted', true)->get(), function ($uniqueWord) {
-                SendTweet::dispatch($uniqueWord->value); //->delay(now()->addMinutes(5));
+            $now = Carbon::now();
 
-                $uniqueWord->tweeted = true;
-                $uniqueWord->save();
-            });
+            $this->withProgressBar(
+                UniqueWord::where(['should_be_tweeted' => true, 'tweeted' => false])->get(),
+                function ($uniqueWord) use ($now) {
+                    $now = $now->addMinutes(2);
+                    SendTweet::dispatch($uniqueWord->value)->delay($now);
+
+                    $uniqueWord->tweeted = true;
+                    $uniqueWord->save();
+                }
+            );
 
             return 0;
         } catch (\Exception $exception) {
