@@ -29,9 +29,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->call('articles:toWords')->everyFiveMinutes()->withoutOverlapping();
-        $schedule->call('rssFeeds:check')->everyFifteenMinutes()->withoutOverlapping();
-        $schedule->call('articles:checkNewWords')->everyTenMinutes()->withoutOverlapping();
+        $schedule->call('articles:toWords')->everyFiveMinutes()->name('article_to_words')->withoutOverlapping();
+        $schedule->call('rssFeeds:check')->everyFifteenMinutes()->name('check_feeds')->withoutOverlapping();
+        // $schedule->call('articles:checkNewWords')->everyTenMinutes()->name('check_new_words')->withoutOverlapping();
     }
 
     /**
