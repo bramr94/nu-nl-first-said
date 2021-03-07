@@ -44,7 +44,7 @@ class ProcessArticleWords implements ShouldQueue
         try {
             $content = str_replace(config('articles.strip_from_articles'), ' ',$this->article->content);
             foreach (explode(' ', $content) as $word) {
-                if ($word == '') {
+                if ($word == '' || preg_match('/[0-9]/', $word)) {
                     continue;
                 }
 
