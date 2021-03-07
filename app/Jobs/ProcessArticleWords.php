@@ -50,6 +50,10 @@ class ProcessArticleWords implements ShouldQueue
 
                 $uniqueWord = UniqueWord::firstOrNew(['value' =>  html_entity_decode($word)]);
                 if (is_null($uniqueWord->occurrences)) {
+                    if (config('twitter.tweet_words')) {
+                        $uniqueWord->should_be_tweeted = true;
+                    }
+
                     $uniqueWord->occurrences = 0;
                 }
 
