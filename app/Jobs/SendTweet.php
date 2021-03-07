@@ -17,7 +17,7 @@ class SendTweet implements ShouldQueue
 
     protected $word;
 
-    public $connection;
+    protected $twitter;
 
     /**
      * Create a new job instance.
@@ -30,7 +30,7 @@ class SendTweet implements ShouldQueue
     {
         $this->word = $word;
 
-        $this->connection = new TwitterOAuth(
+        $this->twitter = new TwitterOAuth(
             config('services.twitter.consumer_access_token'),
             config('services.twitter.consumer_access_token_secret'),
             config('services.twitter.auth_access_token'),
@@ -46,7 +46,7 @@ class SendTweet implements ShouldQueue
     public function handle()
     {
         try {
-            $result = $this->connection->post('statuses/update', ['status' => $this->word]);
+            $result = $this->twitter->post('statuses/update', ['status' => $this->word]);
 
             if ($result->errors) {
                 throw TwitterException();
@@ -60,7 +60,6 @@ class SendTweet implements ShouldQueue
                 ]);
 
                 $this->fail($exception);
-
                 return;
             }
 
