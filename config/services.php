@@ -14,20 +14,12 @@ return [
     |
     */
 
-    'mailgun' => [
-        'domain' => env('MAILGUN_DOMAIN'),
-        'secret' => env('MAILGUN_SECRET'),
-        'endpoint' => env('MAILGUN_ENDPOINT', 'api.mailgun.net'),
-    ],
-
-    'postmark' => [
-        'token' => env('POSTMARK_TOKEN'),
-    ],
-
-    'ses' => [
-        'key' => env('AWS_ACCESS_KEY_ID'),
-        'secret' => env('AWS_SECRET_ACCESS_KEY'),
-        'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
-    ],
+    'twitter' => [
+        'auth_access_token' => env('TWITTER_AUTH_ACCESS_TOKEN'),
+        'auth_account_token_secret' => env('TWITTER_AUTH_ACCESS_TOKEN_SECRET'),
+        'consumer_access_token' => env('TWITTER_CONSUMER_ACCESS_TOKEN'),
+        'consumer_access_token_secret' => env('TWITTER_CONSUMER_ACCESS_TOKEN_SECRET'),
+        'bearer' => env('TWITTER_BEARER')
+    ]
 
 ];

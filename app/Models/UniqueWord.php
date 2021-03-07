@@ -9,5 +9,5 @@ class UniqueWord extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['value', 'occurrences'];
+    protected $fillable = ['value', 'occurrences', 'should_be_tweeted', 'tweeted'];
 }

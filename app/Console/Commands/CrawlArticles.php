@@ -61,7 +61,7 @@ class CrawlArticles extends Command
                 if (Crawler::getStatusCode($url) == 404) {
                     NotFoundArticle::create(['article_id' => $i]);
 
-                    $this->info('Not found:' . $i);
+                    $this->info('Not found: ' . $i);
                     continue;
                 }
 
