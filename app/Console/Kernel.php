@@ -29,12 +29,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->call('articles:toWords')->everyFiveMinutes()->name('article_to_words')->withoutOverlapping();
-        $schedule->call('rssFeeds:check')->everyFifteenMinutes()->name('check_feeds')->withoutOverlapping();
+        $schedule->command('articles:toWords')->everyFiveMinutes()->name('article_to_words')->withoutOverlapping();
+        $schedule->command('rssFeeds:check')->everyFifteenMinutes()->name('check_feeds')->withoutOverlapping();
         // $schedule->call('articles:checkNewWords')->everyTenMinutes()->name('check_new_words')->withoutOverlapping();
     }
-//php /home/forge/default/artisan schedule:run
-
 
     /**
      * Register the commands for the application.
