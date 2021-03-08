@@ -63,7 +63,6 @@ class ProcessArticleWords implements ShouldQueue
                 $uniqueWord->save();
             }
         } catch (\Exception $exception) {
-            dd($exception);
             Log::error('Could not execute article to words jobs', ['exception' => $exception]);
         }
     }
