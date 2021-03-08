@@ -27,6 +27,8 @@ class ProcessArticleWords implements ShouldQueue
     /**
      * Create a new job instance.
      *
+     * @param Article $article
+     *
      * @return void
      */
     public function __construct(Article $article)

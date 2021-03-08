@@ -33,6 +33,8 @@ class Kernel extends ConsoleKernel
         $schedule->call('rssFeeds:check')->everyFifteenMinutes()->name('check_feeds')->withoutOverlapping();
         // $schedule->call('articles:checkNewWords')->everyTenMinutes()->name('check_new_words')->withoutOverlapping();
     }
+//php /home/forge/default/artisan schedule:run
+
 
     /**
      * Register the commands for the application.
