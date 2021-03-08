@@ -6,6 +6,7 @@ use App\Jobs\ProcessArticleWords;
 use App\Models\Article;
 use App\Models\UniqueWord;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Class ArticleToWords
@@ -47,13 +48,20 @@ class ArticleToWords extends Command
      */
     public function handle(): int
     {
-        $this->withProgressBar(Article::where('stored_words', false)->get(), function ($article) {
-            ProcessArticleWords::dispatch($article);
+        try {
+            $this->withProgressBar(Article::where('stored_words', false)->get(), function ($article) {
+                ProcessArticleWords::dispatch($article);
 
-            $article->stored_words = true;
-            $article->save();
-        });
+                $article->stored_words = true;
+                $article->save();
+            });
 
-        return 0;
+            return 0;
+        } catch (\Exception $exception) {
+            Log::error('Could not dispatch job', ['exception' => $exception]);
+
+            $this->output->error($exception->getMessage());
+            return 1;
+        }
     }
 }

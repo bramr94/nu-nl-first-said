@@ -27,6 +27,8 @@ class ProcessArticleWords implements ShouldQueue
     /**
      * Create a new job instance.
      *
+     * @param Article $article
+     *
      * @return void
      */
     public function __construct(Article $article)
@@ -61,6 +63,7 @@ class ProcessArticleWords implements ShouldQueue
                 $uniqueWord->save();
             }
         } catch (\Exception $exception) {
+            dd($exception);
             Log::error('Could not execute article to words jobs', ['exception' => $exception]);
         }
     }
