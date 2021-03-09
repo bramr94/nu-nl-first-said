@@ -34,7 +34,7 @@ class SendTweet implements ShouldQueue
             config('services.twitter.consumer_access_token'),
             config('services.twitter.consumer_access_token_secret'),
             config('services.twitter.auth_access_token'),
-//            config('services.twitter.auth_account_token_secret')
+            config('services.twitter.auth_account_token_secret')
         );
     }
 
