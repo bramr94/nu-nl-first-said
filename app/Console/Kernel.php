@@ -31,7 +31,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('articles:toWords')->everyFiveMinutes()->name('article_to_words')->withoutOverlapping();
         $schedule->command('rssFeeds:check')->everyFifteenMinutes()->name('check_feeds')->withoutOverlapping();
-        // $schedule->call('articles:checkNewWords')->everyTenMinutes()->name('check_new_words')->withoutOverlapping();
+        $schedule->command('articles:checkNewWords')->everyFourMinutes()->name('check_new_words')->withoutOverlapping();
     }
 
     /**
