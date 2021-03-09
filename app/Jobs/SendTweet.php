@@ -48,7 +48,7 @@ class SendTweet implements ShouldQueue
         try {
             $result = $this->twitter->post('statuses/update', ['status' => $this->word]);
 
-            if ($result->errors) {
+            if (isset($result->errors)) {
                 throw TwitterException();
             }
         } catch (\Exception $exception) {
