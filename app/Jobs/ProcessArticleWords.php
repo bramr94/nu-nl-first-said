@@ -46,7 +46,7 @@ class ProcessArticleWords implements ShouldQueue
         try {
             $content = str_replace(config('articles.strip_from_articles'), ' ',$this->article->content);
             foreach (explode(' ', $content) as $word) {
-                if ($word == '' || preg_match('/[0-9]/', $word)) {
+                if ($word == '' || $this->containsNumbers($word) || $this->containsUppercaseCharacters($word)) {
                     continue;
                 }
 
@@ -65,5 +65,15 @@ class ProcessArticleWords implements ShouldQueue
         } catch (\Exception $exception) {
             Log::error('Could not execute article to words jobs', ['exception' => $exception]);
         }
+    }
+
+    private function containsNumbers(string $word): bool
+    {
+         return (bool) preg_match('/[0-9]/', $word);
+    }
+
+    private function containsUppercaseCharacters(string $word): bool
+    {
+        return (bool) preg_match('/[A-Z]/', $word);
     }
 }
