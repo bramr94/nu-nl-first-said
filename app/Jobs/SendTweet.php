@@ -34,7 +34,7 @@ class SendTweet implements ShouldQueue
             config('services.twitter.consumer_access_token'),
             config('services.twitter.consumer_access_token_secret'),
             config('services.twitter.auth_access_token'),
-            config('services.twitter.auth_account_token_secret')
+//            config('services.twitter.auth_account_token_secret')
         );
     }
 
@@ -48,7 +48,7 @@ class SendTweet implements ShouldQueue
         try {
             $result = $this->twitter->post('statuses/update', ['status' => $this->word]);
 
-            if ($result->errors) {
+            if (isset($result->errors)) {
                 throw TwitterException();
             }
         } catch (\Exception $exception) {
