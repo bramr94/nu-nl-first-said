@@ -15,9 +15,9 @@ class SendTweet implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $word;
+    protected string $word;
 
-    protected $twitter;
+    protected TwitterOAuth $twitter;
 
     /**
      * Create a new job instance.
@@ -46,6 +46,7 @@ class SendTweet implements ShouldQueue
     public function handle()
     {
         try {
+            dd($this->word);
             $result = $this->twitter->post('statuses/update', ['status' => $this->word]);
 
             if (isset($result->errors)) {
