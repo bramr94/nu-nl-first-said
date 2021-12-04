@@ -22,7 +22,7 @@ class ProcessArticleWords implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $article;
+    protected Article $article;
 
     /**
      * Create a new job instance.
@@ -44,7 +44,7 @@ class ProcessArticleWords implements ShouldQueue
     public function handle()
     {
         try {
-            $content = str_replace(config('articles.strip_from_articles'), ' ',$this->article->content);
+            $content = str_replace(config('articles.strip_from_articles'), ' ', $this->article->content);
             foreach (explode(' ', $content) as $word) {
                 if ($word == '' || $this->containsNumbers($word) || $this->containsUppercaseCharacters($word)) {
                     continue;

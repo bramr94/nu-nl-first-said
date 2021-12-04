@@ -2,11 +2,21 @@
 
 namespace App\Console\Commands;
 
+use App\Facades\Feed;
 use App\Jobs\ProcessArticle;
 use App\Models\Article;
+use App\Exceptions\InvalidXmlException;
 use Illuminate\Console\Command;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 
+/**
+ * Class CheckRssFeeds
+ *
+ * @author Bram Raaijmakers
+ *
+ * @package App\Console\Commands
+ */
 class CheckRssFeeds extends Command
 {
     /**
@@ -42,7 +52,11 @@ class CheckRssFeeds extends Command
     {
         try {
             foreach (config('rss-feeds.urls') as $url) {
-                $feed = (array) simplexml_load_file($url);
+                $feed = Feed::load($url);
+
+                if (!Arr::has($feed, 'channel')) {
+                    throw new InvalidXmlException();
+                }
 
                 foreach ($feed['channel']->item as $article) {
                     $articleId = $this->getArticleId($article->link);
@@ -56,6 +70,7 @@ class CheckRssFeeds extends Command
 
             return 0;
         } catch (\Exception $exception) {
+            dd($exception);
             Log::error('Something went wrong while retrieving new articles', ['exception' => $exception]);
 
             $this->output->error($exception->getMessage());
@@ -63,6 +78,13 @@ class CheckRssFeeds extends Command
         }
     }
 
+    /**
+     * Retreive the article id from the url string.
+     *
+     * @param string $url
+     *
+     * @return string
+     */
     private function getArticleId(string $url): string
     {
         return explode('/', $url)[4];
