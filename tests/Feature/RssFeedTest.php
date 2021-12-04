@@ -67,6 +67,7 @@ class RssFeedTest extends TestCase
         Feed::shouldReceive('load')->once()->andReturn((object) 'invalid feed object');
 
         $this->artisan('rssFeeds:check')->assertFailed();
+        Bus::assertNotDispatched(ProcessArticle::class);
     }
 
     private function createFeedResponse(): object
