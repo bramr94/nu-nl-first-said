@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Exceptions\InvalidFeedException;
 use App\Facades\Feed;
 use App\Jobs\ProcessArticle;
 use App\Models\Article;
@@ -54,11 +55,15 @@ class CheckRssFeeds extends Command
             foreach (config('rss-feeds.urls') as $url) {
                 $feed = Feed::load($url);
 
-                if (!Arr::has($feed, 'channel')) {
-                    throw new InvalidXmlException();
+                if (!isset($feed->channel) || !isset($feed->channel->item)) {
+                    throw new InvalidFeedException();
                 }
 
-                foreach ($feed['channel']->item as $article) {
+                foreach ($feed->channel->item as $article) {
+                    if (!isset($article->link)) {
+                        throw new InvalidFeedException();
+                    }
+
                     $articleId = $this->getArticleId($article->link);
                     if (Article::where('article_id', $articleId)->count()) {
                         continue;
@@ -69,8 +74,15 @@ class CheckRssFeeds extends Command
             }
 
             return 0;
+        } catch (InvalidFeedException $exception) {
+            Log::error('We received a invalid feed', [
+                'feed' => $feed,
+                'exception' => $exception
+            ]);
+
+            $this->output->error('We received a invalid feed');
+            return 1;
         } catch (\Exception $exception) {
-            dd($exception);
             Log::error('Something went wrong while retrieving new articles', ['exception' => $exception]);
 
             $this->output->error($exception->getMessage());

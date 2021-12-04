@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Article;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -25,8 +26,8 @@ class ArticleFactory extends Factory
         return [
             'article_id' => $this->faker->numberBetween(1, 100),
             'url' => $this->faker->url,
-            'title' => $this->faker->words(2),
-            'content' => $this->faker->sentences(4),
+            'title' => $this->faker->words(2, true),
+            'content' => $this->faker->sentences(4, true),
             'stored_words' => false
         ];
     }

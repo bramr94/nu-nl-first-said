@@ -16,10 +16,10 @@ class Feed
      *
      * @param string $url
      *
-     * @return array
+     * @return object
      */
-    public function load(string $url): array
+    public function load(string $url): object
     {
-        return (array) simplexml_load_file($url);
+        return (object) simplexml_load_file($url);
     }
 }
