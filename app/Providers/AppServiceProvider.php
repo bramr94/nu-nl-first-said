@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Helpers\Crawler;
+use App\Helpers\Feed;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -16,6 +17,9 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->singleton('crawler', static function () {
             return new Crawler();
+        });
+        $this->app->singleton('feed', static function () {
+            return new Feed();
         });
     }
 

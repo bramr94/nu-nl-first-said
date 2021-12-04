@@ -17,7 +17,7 @@ class Crawler
     /**
      * @var Client
      */
-    private $client;
+    private Client $client;
 
     /**
      * Crawler constructor.
