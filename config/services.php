@@ -15,11 +15,11 @@ return [
     */
 
     'twitter' => [
-        'auth_access_token' => env('TWITTER_AUTH_ACCESS_TOKEN'),
-        'auth_account_token_secret' => env('TWITTER_AUTH_ACCESS_TOKEN_SECRET'),
-        'consumer_access_token' => env('TWITTER_CONSUMER_ACCESS_TOKEN'),
-        'consumer_access_token_secret' => env('TWITTER_CONSUMER_ACCESS_TOKEN_SECRET'),
-        'bearer' => env('TWITTER_BEARER')
+        'auth_access_token' => env('TWITTER_AUTH_ACCESS_TOKEN', ''),
+        'auth_account_token_secret' => env('TWITTER_AUTH_ACCESS_TOKEN_SECRET', ''),
+        'consumer_access_token' => env('TWITTER_CONSUMER_ACCESS_TOKEN', ''),
+        'consumer_access_token_secret' => env('TWITTER_CONSUMER_ACCESS_TOKEN_SECRET', ''),
+        'bearer' => env('TWITTER_BEARER', '')
     ]
 
 ];
