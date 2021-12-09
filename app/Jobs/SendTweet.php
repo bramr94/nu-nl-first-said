@@ -46,7 +46,6 @@ class SendTweet implements ShouldQueue
     public function handle()
     {
         try {
-            dd($this->word);
             $result = $this->twitter->post('statuses/update', ['status' => $this->word]);
 
             if (isset($result->errors)) {
